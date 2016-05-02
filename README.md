@@ -3,7 +3,7 @@ Write Jinja2-style templates in C++.  Uses lua as a scripting language (very lig
 
 ## How I use it
 
-I use cpptemplater for templating OpenCL kernels, eg https://github.com/hughperkins/cltorch/blob/master/src/lib/THClScatter.cl. Enabling/disabling chunks of code:
+I use luacpptemplater for templating OpenCL kernels, eg https://github.com/hughperkins/cltorch/blob/master/src/lib/THClScatter.cl. Enabling/disabling chunks of code:
 ```
 {% if scatterFill then %}
 kernel void THClTensor_kernel_scatterFill(
