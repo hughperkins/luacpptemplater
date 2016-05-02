@@ -32,12 +32,12 @@ int curDimIndex;
 * mostly I just use loops and `if` blocks, but the sky is the limit.  The entire power of lua scripting is at
 our disposal
 
-## How to use cppluatemplater
+## How to use luacpptemplater
 
 ### To build:
 ```
-git clone https://github.com/hughperkins/cppluatemplater
-cd cppluatemplater
+git clone https://github.com/hughperkins/luacpptemplater
+cd luacpptemplater
 mkdir build
 cd build
 ccmake ..
@@ -50,12 +50,12 @@ make -j 4 install
 => the unit test (if selected) will install into `../dist/bin`, and the library will be built into `../dist/lib` (assuming
 linux)
 
-You can run `../dist/bin/cppluatemplater_unittests` to convince yourself everything is working ok
+You can run `../dist/bin/luacpptemplater_unittests` to convince yourself everything is working ok
 
 ### To link to your own project
 
-* link with libcppluatemplater.so
-* there is a .cmake file you can import from cmakelists, at `../dist/lib/cppluatemplater/cppluatemplater-targets.cmake`
+* link with libluacpptemplater.so
+* there is a .cmake file you can import from cmakelists, at `../dist/lib/luacpptemplater/luacpptemplater-targets.cmake`
 
 ## Related projects
 

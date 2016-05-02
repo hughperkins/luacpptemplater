@@ -14,7 +14,7 @@
 
 // #include "DeepCLDllExport.h"
 
-namespace cppluatemplater {
+namespace luacpptemplater {
     class IHasToString {
     public:
         virtual std::string toString() = 0;

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "util/cppluatemplater_stringhelper.h"
+#include "util/luacpptemplater_stringhelper.h"
 
 inline ::testing::AssertionResult AssertFloatsNear(const char *expr_one, const char *expr_two,
     float one, float two) {
@@ -12,8 +12,8 @@ inline ::testing::AssertionResult AssertFloatsNear(const char *expr_one, const c
     if(absdiff < 0.000000000000001f) {
         return ::testing::AssertionSuccess();
     }
-    std::string onestr = cppluatemplater::toString(one);
-    std::string twostr = cppluatemplater::toString(two);
+    std::string onestr = luacpptemplater::toString(one);
+    std::string twostr = luacpptemplater::toString(two);
     return ::testing::AssertionFailure()
         << expr_one << " and " << expr_two << " differ: " << onestr << " vs " << twostr;
 } 

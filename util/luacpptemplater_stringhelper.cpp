@@ -9,9 +9,9 @@
 #include <sstream>
 using namespace std;
 
-#include "util/cppluatemplater_stringhelper.h"
+#include "util/luacpptemplater_stringhelper.h"
 
-namespace cppluatemplater {
+namespace luacpptemplater {
     vector<string> split(const string &str, const string &separator) {
 	    vector<string> splitstring;
 	    int start = 0;

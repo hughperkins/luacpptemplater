@@ -8,7 +8,7 @@
 #include <string>
 
 #include "gtest/gtest.h"
-#include "cppluatemplater_gtest_supp.h"
+#include "luacpptemplater_gtest_supp.h"
 
 #include "LuaTemplater.h"
 

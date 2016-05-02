@@ -6,14 +6,14 @@
 
 #include <iostream>
 
-#include "util/cppluatemplater_stringhelper.h"
+#include "util/luacpptemplater_stringhelper.h"
 
 #include "gtest/gtest.h"
 
 #include "test/GtestGlobals.h"
 
 using namespace std;
-using namespace cppluatemplater;
+using namespace luacpptemplater;
 
 string cmdline;
 
