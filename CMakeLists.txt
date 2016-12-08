@@ -1,11 +1,14 @@
 project(luacpptemplater)
 cmake_minimum_required(VERSION 3.4)
 
+option(BUILD_TESTS "Build unit-tests." OFF)
+option(DEV_RUN_COG "Only EasyCL maintainers need this, otherwise set to 'OFF'." OFF)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-option(BUILD_TESTS "Build unit-tests." OFF)
-option(DEV_RUN_COG "Only EasyCL maintainers need this, otherwise set to 'OFF'." OFF)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX
@@ -21,6 +24,8 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_MACOSX_RPATH TRUE)
 
 include_directories(.)
+include_directories(SYSTEM thirdparty/gtest)
+
 set(TEMPLATESRC LuaTemplater.cpp util/luacpptemplater_stringhelper.cpp)
 set(TEMPLATETESTS test/testLuaTemplater.cpp)
 
@@ -39,8 +44,8 @@ add_library(
     util/luacpptemplater_stringhelper)
 
 if(BUILD_TESTS)
-    add_executable(luacpptemplater_unittests ${TEMPLATETESTS} test/GtestGlobals.cpp thirdparty/gtest/gtest-all.cc)
-    target_link_libraries(luacpptemplater_unittests luacpptemplater ${CONAN_LIBS} ${EXTRA_LIBS})
+    add_executable(luacpptemplater_unittests ${TEMPLATETESTS} test/GtestGlobals.cpp thirdparty/gtest/gtest-all.cc thirdparty/gtest/gtest_main.cc)
+    target_link_libraries(luacpptemplater_unittests luacpptemplater ${CONAN_LIBS} ${EXTRA_LIBS} Threads::Threads)
 endif()
 
 if(DEV_RUN_COG)
