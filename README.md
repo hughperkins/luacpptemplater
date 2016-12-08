@@ -57,11 +57,16 @@ You can run `../dist/bin/luacpptemplater_unittests` to convince yourself everyth
 * link with libluacpptemplater.so
 * there is a .cmake file you can import from cmakelists, at `../dist/lib/luacpptemplater/luacpptemplater-targets.cmake`
 
+## How does it work?
+
+- it basically uses the code from https://john.nachtimwald.com/2014/08/06/using-lua-as-a-templating-engine/  I think I did make some tweaks to it, and provided c++ wrapping around it, but basically it's John Nachtiwald's idea and core implementation.  His idea is very cool :-)
+
 ## Related projects
 
 * initially, I dabbled with writing a templating engine in pure C++, ie [Jinja2CppLight](https://github.com/hughperkins/Jinja2CppLight)
 * however, it quickly became apparent that I was gradually reinventing my own scripting language from scratch...
-* so I switched to lua.  It works great.  Never looked back :-)
+* So I hunted around for a Lua solution, which I found at https://john.nachtimwald.com/2014/08/06/using-lua-as-a-templating-engine/
+* This worked great for me, and I've never looked back :-)
 
 ## License
 
