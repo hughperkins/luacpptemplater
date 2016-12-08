@@ -1,12 +1,11 @@
-cmake_minimum_required(VERSION 3.4)
 project(luacpptemplater)
+cmake_minimum_required(VERSION 3.4)
 
-option(BUILD_TESTS
-       "Build unit-tests." OFF)
-option(DEV_RUN_COG
-       "Only EasyCL maintainers need this, otherwise set to 'OFF'." OFF)
-option(PROVIDE_LUA_ENGINE
-       "For example for Torch, we use Torch's engine." ON)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+option(BUILD_TESTS "Build unit-tests." OFF)
+option(DEV_RUN_COG "Only EasyCL maintainers need this, otherwise set to 'OFF'." OFF)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX
@@ -21,52 +20,27 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_MACOSX_RPATH TRUE)
 
-if(BUILD_TESTS AND NOT PROVIDE_LUA_ENGINE)
-    message("Error: if building tests, need to enable PROVIDE_LUA_ENGINE")
-endif()
-
 include_directories(.)
-include_directories(SYSTEM thirdparty/lua-5.1.5/src)
 set(TEMPLATESRC LuaTemplater.cpp util/luacpptemplater_stringhelper.cpp)
 set(TEMPLATETESTS test/testLuaTemplater.cpp)
 
 if(UNIX)
     set(EXTRA_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
+    set(EXTRA_LIBS "dl")
 endif()
 
-if(PROVIDE_LUA_ENGINE)
-    file(STRINGS thirdparty/lua-5.1.5/files.txt lua_src1)
-    foreach(source ${lua_src1})
-        set(lua_src ${lua_src} thirdparty/lua-5.1.5/src/${source})
-    endforeach()
-    if(APPLE)
-        set_target_properties(
-            luacpptemplater
-            PROPERTIES
-                LINK_FLAGS "-single_module"
-                COMPILE_FLAGS ${EXTRA_CXX_FLAGS}
-        )
-        add_definitions(-DLUA_USE_LINUX)
-    endif()
-else()
-    if(APPLE)
-        set_target_properties(luacpptemplater PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    endif()
+if(APPLE)
+    set_target_properties(luacpptemplater PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-add_library(luacpptemplater STATIC LuaTemplater.cpp util/luacpptemplater_stringhelper ${lua_src})
+add_library(
+    luacpptemplater STATIC
+    LuaTemplater.cpp
+    util/luacpptemplater_stringhelper)
 
 if(BUILD_TESTS)
-    if(UNIX)
-        add_library(luacpptemplater_gtest STATIC thirdparty/gtest/gtest-all.cc)
-        target_link_libraries(luacpptemplater pthread)
-    else()
-        add_library(luacpptemplater_gtest thirdparty/gtest/gtest-all.cc)
-    endif()
-
-    add_executable(luacpptemplater_unittests ${TEMPLATETESTS} test/gtest_main.cpp test/GtestGlobals.cpp)
-    target_link_libraries(luacpptemplater_unittests luacpptemplater_gtest luacpptemplater)
-    target_include_directories(luacpptemplater_unittests PRIVATE thirdparty/gtest)
+    add_executable(luacpptemplater_unittests ${TEMPLATETESTS} test/GtestGlobals.cpp thirdparty/gtest/gtest-all.cc)
+    target_link_libraries(luacpptemplater_unittests luacpptemplater ${CONAN_LIBS} ${EXTRA_LIBS})
 endif()
 
 if(DEV_RUN_COG)
@@ -91,7 +65,7 @@ install(FILES ${HEADERS_ROOT} DESTINATION include/luacpptemplater)
 install(EXPORT luacpptemplater-targets DESTINATION lib/luacpptemplater)
 
 if(BUILD_TESTS)
-   install(TARGETS luacpptemplater_gtest luacpptemplater_unittests
+   install(TARGETS luacpptemplater_unittests
       LIBRARY DESTINATION lib
       ARCHIVE DESTINATION lib
       RUNTIME DESTINATION bin

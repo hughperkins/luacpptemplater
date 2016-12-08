@@ -1,7 +1,7 @@
 // Copyright Hugh Perkins 2015 hughperkins at gmail
 //
-// This Source Code Form is subject to the terms of the Mozilla Public License, 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+// This Source Code Form is subject to the terms of the Mozilla Public License,
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 
 #include <iostream>
@@ -24,7 +24,6 @@ TEST(testLuaTemplater, basicsubstitution1) {
     string expectedResult = "This is my 3 template.";
     EXPECT_EQ(expectedResult, result);
     string result2 = mytemplate.render(source);
-    return;
     EXPECT_EQ(expectedResult, result2);
 }
 TEST(testLuaTemplater, basicsubstitution1b) {
@@ -37,7 +36,6 @@ TEST(testLuaTemplater, basicsubstitution1b) {
     string expectedResult = "This is my 3 template";
     EXPECT_EQ(expectedResult, result);
     string result2 = mytemplate.render(source);
-    return;
     EXPECT_EQ(expectedResult, result2);
 }
 TEST(testLuaTemplater, basicsubstitution) {
@@ -58,7 +56,6 @@ TEST(testLuaTemplater, basicsubstitution) {
 "    \n";
     EXPECT_EQ(expectedResult, result);
     string result2 = mytemplate.render(source);
-    return;
     EXPECT_EQ(expectedResult, result2);
 }
 //TEST(testLuaTemplater, basicsubstitution_from_vec) {
@@ -212,13 +209,7 @@ TEST(testLuaTemplater, codingerror) {
         "%}\n"
         "";
     LuaTemplater mytemplate;
-    bool threw = false;
-    try {
-      string result = mytemplate.render(source);
-    } catch(runtime_error e) {
-      threw = true;
-    }
-    EXPECT_TRUE(threw);
+    EXPECT_THROW(mytemplate.render(source), std::runtime_error);
 }
 
 TEST(testLuaTemplater, include) {
