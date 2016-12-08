@@ -238,3 +238,33 @@ TEST(testLuaTemplater, include) {
     EXPECT_EQ(expectedResult, result);
 }
 
+TEST(testLuaTemplater, function) {
+    string source = "\n"
+        "{% function foo() %}\n"
+        "this is text inside foo function\n"
+        "{% end %}\n"
+        "some text\n"
+        "{% foo() %}\n"
+        "------\n"
+        "{% foo() %}\n"
+        "more text\n"
+        "\n"
+        "";
+    LuaTemplater mytemplate;
+    string result = mytemplate.render(source);
+    cout << "[" << result << "]" << endl;
+    string expectedResult =
+        "\n"
+        "\n"
+        "some text\n"
+        "\n"
+        "this is text inside foo function\n"
+        "\n"
+        "------\n"
+        "\n"
+        "this is text inside foo function\n"
+        "\n"
+        "more text\n"
+        "\n";
+    EXPECT_EQ(expectedResult, result);
+}
