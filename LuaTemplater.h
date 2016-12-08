@@ -25,8 +25,5 @@ public:
   void set(std::string const &name, std::vector<int> &values);
   void set(std::string const &name, std::vector<float> &values);
   std::string render(std::string const &template_string);
-
-private:
-  std::string getTemplaterSource();
 };
 
