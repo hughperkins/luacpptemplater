@@ -59,11 +59,14 @@ if(BUILD_TESTS)
     )
 endif()
 
+#
+# make sure that you have installed cog via
+#     pip install cogapp
+#
 if(DEV_RUN_COG)
     add_custom_target(
         cog
-        python ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cogapp/cog.py -q -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.h  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.cpp
+        cog.py -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/src/LuaTemplater/*.cpp
     )
     add_dependencies(luacpptemplater cog)
 endif()
