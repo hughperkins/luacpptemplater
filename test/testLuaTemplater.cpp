@@ -58,40 +58,6 @@ TEST(testLuaTemplater, basicsubstitution) {
     string result2 = mytemplate.render(source);
     EXPECT_EQ(expectedResult, result2);
 }
-//TEST(testLuaTemplater, basicsubstitution_from_vec) {
-//    string source = "\n"
-//"        This is my {{avalue}} template.  It's {{secondvalue}}...\n"
-//"        Today's weather is {{weather}}.\n"
-//"    \n";
-
-//    LuaTemplater mytemplate(source);
-//    map< string, Value * > valueByName;
-//    valueByName.setValue("avalue", 3);
-//    valueByName.setValue("secondvalue", 12.123f);
-//    valueByName.setValue("weather", "rain");
-//    string result = mytemplate.render();
-//    cout << result << endl;
-//    string expectedResult = "\n"
-//"        This is my 3 template.  It's 12.123...\n"
-//"        Today's weather is rain.\n"
-//"    \n";
-//    EXPECT_EQ(expectedResult, result);
-//}
-//TEST(testLuaTemplater, namemissing) {
-//    string source = "\n"
-//"        This is my {{avalue}} template.\n"
-//"    \n";
-
-//    LuaTemplater mytemplate;
-//    bool threw = false;
-//    try {
-//        string result = mytemplate.render(source);
-//    } catch(render_error &e) {
-//        EXPECT_EQ(string("name avalue not defined"), e.what());
-//        threw = true;
-//    }
-//    EXPECT_EQ(true, threw);
-//}
 TEST(testLuaTemplater, startofsection) {
     string source = "{{avalue}} template";
 
