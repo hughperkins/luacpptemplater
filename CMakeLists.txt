@@ -7,8 +7,6 @@ option(DEV_RUN_COG "Only EasyCL maintainers need this, otherwise set to 'OFF'." 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(CMAKE_CXX_STANDARD 11)
-
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
@@ -44,6 +42,11 @@ set(LCT_SRCS
 )
 
 add_library(luacpptemplater STATIC ${LCT_SRCS})
+
+target_compile_definitions(
+    luacpptemplater
+    PRIVATE _GLIBCXX_USE_CXX11_ABI=1
+)
 
 if(BUILD_TESTS)
     add_executable(luacpptemplater_unittests
