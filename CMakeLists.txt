@@ -23,10 +23,9 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_MACOSX_RPATH TRUE)
 
-include_directories(.)
+include_directories(include)
 include_directories(SYSTEM thirdparty/gtest)
 
-set(TEMPLATESRC LuaTemplater.cpp util/luacpptemplater_stringhelper.cpp)
 set(TEMPLATETESTS test/testLuaTemplater.cpp)
 
 if(UNIX)
@@ -38,22 +37,34 @@ if(APPLE)
     set_target_properties(luacpptemplater PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-add_library(
-    luacpptemplater STATIC
-    LuaTemplater.cpp
-    util/luacpptemplater_stringhelper)
+set(LCT_SRCS
+    src/LuaTemplater/LuaTemplater.cpp
+)
+
+add_library(luacpptemplater STATIC ${LCT_SRCS})
 
 if(BUILD_TESTS)
-    add_executable(luacpptemplater_unittests ${TEMPLATETESTS} test/GtestGlobals.cpp thirdparty/gtest/gtest-all.cc thirdparty/gtest/gtest_main.cc)
-    target_link_libraries(luacpptemplater_unittests luacpptemplater ${CONAN_LIBS} ${EXTRA_LIBS} Threads::Threads)
+    add_executable(luacpptemplater_unittests
+        ${LCT_SRCS}
+        test/testLuaTemplater.cpp
+        thirdparty/gtest/gtest-all.cc
+        thirdparty/gtest/gtest_main.cc
+    )
+    include_directories(test)
+    target_link_libraries(luacpptemplater_unittests
+        luacpptemplater
+        ${CONAN_LIBS}
+        ${EXTRA_LIBS}
+        Threads::Threads
+    )
 endif()
 
 if(DEV_RUN_COG)
     add_custom_target(
         cog
-        python ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cogapp/cog.py -q -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        python ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cogapp/cog.py -q -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.h  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.cpp
-   )
+    )
     add_dependencies(luacpptemplater cog)
 endif()
 

@@ -10,7 +10,7 @@
 #include "gtest/gtest.h"
 #include "luacpptemplater_gtest_supp.h"
 
-#include "LuaTemplater.h"
+#include "LuaTemplater/LuaTemplater.h"
 
 using namespace std;
 

@@ -14,7 +14,7 @@ extern "C" {
 #include "lualib.h"
 }
 
-#include "LuaTemplater.h"
+#include "LuaTemplater/LuaTemplater.h"
 
 using namespace std;
 //
