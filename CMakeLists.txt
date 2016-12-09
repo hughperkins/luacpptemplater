@@ -7,6 +7,8 @@ option(DEV_RUN_COG "Only EasyCL maintainers need this, otherwise set to 'OFF'." 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+set(CMAKE_CXX_STANDARD 11)
+
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
