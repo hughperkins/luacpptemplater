@@ -14,7 +14,7 @@ extern "C" {
 #include "lualib.h"
 }
 
-#include "LuaTemplater/LuaTemplater.h"
+#include "LuaCppTemplater/LuaCppTemplater.h"
 
 using namespace std;
 //
@@ -209,7 +209,7 @@ using namespace std;
   "";
   // [[[end]]]
 
-LuaTemplater::LuaTemplater() {
+LuaCppTemplater::LuaCppTemplater() {
   L = luaL_newstate();
   luaL_openlibs(L);
 
@@ -219,24 +219,24 @@ LuaTemplater::LuaTemplater() {
   }
 }
 
-LuaTemplater::~LuaTemplater() { lua_close(L); }
+LuaCppTemplater::~LuaCppTemplater() { lua_close(L); }
 
-void LuaTemplater::set(std::string const &name, std::string const &value) {
+void LuaCppTemplater::set(std::string const &name, std::string const &value) {
   lua_pushstring(L, value.c_str());
   lua_setglobal(L, name.c_str());
 }
 
-void LuaTemplater::set(std::string const &name, float value) {
+void LuaCppTemplater::set(std::string const &name, float value) {
   lua_pushnumber(L, value);
   lua_setglobal(L, name.c_str());
 }
 
-void LuaTemplater::set(std::string const &name, int value) {
+void LuaCppTemplater::set(std::string const &name, int value) {
   lua_pushinteger(L, value);
   lua_setglobal(L, name.c_str());
 }
 
-void LuaTemplater::set(std::string const &name,
+void LuaCppTemplater::set(std::string const &name,
                        std::vector<std::string> &values) {
   lua_newtable(L);
   for (int i = 0; i < (int)values.size(); i++) {
@@ -246,7 +246,7 @@ void LuaTemplater::set(std::string const &name,
   lua_setglobal(L, name.c_str());
 }
 
-void LuaTemplater::set(std::string const &name, std::vector<int> &values) {
+void LuaCppTemplater::set(std::string const &name, std::vector<int> &values) {
   lua_newtable(L);
   for (int i = 0; i < (int)values.size(); i++) {
     lua_pushnumber(L, values[i]);
@@ -255,7 +255,7 @@ void LuaTemplater::set(std::string const &name, std::vector<int> &values) {
   lua_setglobal(L, name.c_str());
 }
 
-void LuaTemplater::set(std::string const &name, std::vector<float> &values) {
+void LuaCppTemplater::set(std::string const &name, std::vector<float> &values) {
   lua_newtable(L);
   for (int i = 0; i < (int)values.size(); i++) {
     lua_pushnumber(L, values[i]);
@@ -264,7 +264,7 @@ void LuaTemplater::set(std::string const &name, std::vector<float> &values) {
   lua_setglobal(L, name.c_str());
 }
 
-std::string LuaTemplater::render(std::string const &template_string) {
+std::string LuaCppTemplater::render(std::string const &template_string) {
   lua_getfield(L, -1, "compile");
   lua_pushstring(L, template_string.c_str());
   if (lua_pcall(L, 1, 1, 0) != 0) {

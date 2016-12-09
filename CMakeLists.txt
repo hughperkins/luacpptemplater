@@ -26,7 +26,7 @@ set(CMAKE_MACOSX_RPATH TRUE)
 include_directories(include)
 include_directories(SYSTEM thirdparty/gtest)
 
-set(TEMPLATETESTS test/testLuaTemplater.cpp)
+set(TEMPLATETESTS test/testLuaCppTemplater.cpp)
 
 if(UNIX)
     set(EXTRA_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
@@ -38,7 +38,7 @@ if(APPLE)
 endif()
 
 set(LCT_SRCS
-    src/LuaTemplater/LuaTemplater.cpp
+    src/LuaCppTemplater/LuaCppTemplater.cpp
 )
 
 add_library(luacpptemplater STATIC ${LCT_SRCS})
@@ -46,7 +46,7 @@ add_library(luacpptemplater STATIC ${LCT_SRCS})
 if(BUILD_TESTS)
     add_executable(luacpptemplater_unittests
         ${LCT_SRCS}
-        test/testLuaTemplater.cpp
+        test/testLuaCppTemplater.cpp
         thirdparty/gtest/gtest-all.cc
         thirdparty/gtest/gtest_main.cc
     )
@@ -66,7 +66,7 @@ endif()
 if(DEV_RUN_COG)
     add_custom_target(
         cog
-        cog.py -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/src/LuaTemplater/*.cpp
+        cog.py -I ${CMAKE_CURRENT_SOURCE_DIR}/cog-batteries -r ${CMAKE_CURRENT_SOURCE_DIR}/src/LuaCppTemplater/*.cpp
     )
     add_dependencies(luacpptemplater cog)
 endif()

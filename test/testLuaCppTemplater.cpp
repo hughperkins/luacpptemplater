@@ -10,14 +10,14 @@
 #include "gtest/gtest.h"
 #include "luacpptemplater_gtest_supp.h"
 
-#include "LuaTemplater/LuaTemplater.h"
+#include "LuaCppTemplater/LuaCppTemplater.h"
 
 using namespace std;
 
-TEST(testLuaTemplater, basicsubstitution1) {
+TEST(testLuaCppTemplater, basicsubstitution1) {
     string source = "This is my {{avalue}} template.";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("avalue", 3);
     string result = mytemplate.render(source);
     cout << result << endl;
@@ -26,10 +26,10 @@ TEST(testLuaTemplater, basicsubstitution1) {
     string result2 = mytemplate.render(source);
     EXPECT_EQ(expectedResult, result2);
 }
-TEST(testLuaTemplater, basicsubstitution1b) {
+TEST(testLuaCppTemplater, basicsubstitution1b) {
     string source = "This is my {{avalue}} template";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("avalue", 3);
     string result = mytemplate.render(source);
     cout << result << endl;
@@ -38,13 +38,13 @@ TEST(testLuaTemplater, basicsubstitution1b) {
     string result2 = mytemplate.render(source);
     EXPECT_EQ(expectedResult, result2);
 }
-TEST(testLuaTemplater, basicsubstitution) {
+TEST(testLuaCppTemplater, basicsubstitution) {
     string source = "\n"
 "        This is my {{avalue}} template.  It's {{secondvalue}}...\n"
 "        Today's weather is {{weather}}.\n"
 "    \n";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("avalue", 3);
     mytemplate.set("secondvalue", 123);
     mytemplate.set("weather", "rain");
@@ -58,34 +58,34 @@ TEST(testLuaTemplater, basicsubstitution) {
     string result2 = mytemplate.render(source);
     EXPECT_EQ(expectedResult, result2);
 }
-TEST(testLuaTemplater, startofsection) {
+TEST(testLuaCppTemplater, startofsection) {
     string source = "{{avalue}} template";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("avalue", 3);
     string result = mytemplate.render(source);
     cout << result << endl;
     string expectedResult = "3 template";
     EXPECT_EQ(expectedResult, result);
 }
-TEST(testLuaTemplater, endofsection) {
+TEST(testLuaCppTemplater, endofsection) {
     string source = "template {{avalue}}";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("avalue", 3);
     string result = mytemplate.render(source);
     cout << result << endl;
     string expectedResult = "template 3";
     EXPECT_EQ(expectedResult, result);
 }
-TEST(testLuaTemplater, loop) {
+TEST(testLuaCppTemplater, loop) {
     string source = "\n"
 "        {% for i=0,its-1 do %}\n"
 "            a[{{i}}] = image[{{i}}];\n"
 "        {% end %}\n"
 "    \n";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("its", 3);
     string result = mytemplate.render(source);
     cout << result << endl;
@@ -101,14 +101,14 @@ TEST(testLuaTemplater, loop) {
     EXPECT_EQ(expectedResult, result);
 }
 
-TEST(testLuaTemplater, nestedloop) {
+TEST(testLuaCppTemplater, nestedloop) {
     string source = "\n"
 "{% for i=0,its-1 do %}a[{{i}}] = image[{{i}}];\n"
 "{% for j=0,1 do %}b[{{j}}] = image[{{j}}];\n"
 "{% end %}{% end %}\n"
 "";
 
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("its", 3);
     string result = mytemplate.render(source);
     cout << "[" << result << "]" << endl;
@@ -127,12 +127,12 @@ TEST(testLuaTemplater, nestedloop) {
     EXPECT_EQ(expectedResult, result);
 }
 
-TEST(testLuaTemplater, foreachloop) {
+TEST(testLuaCppTemplater, foreachloop) {
     string source = "\n"
         "{% for _,name in ipairs(names) do %}{{name}}\n"
         "{% end %}\n"
         "";
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
 //    cout << mytemplate << endl;
     vector<string> values;
     values.push_back("blue");
@@ -149,7 +149,7 @@ TEST(testLuaTemplater, foreachloop) {
     EXPECT_EQ(expectedResult, result);
 }
 
-TEST(testLuaTemplater, codesection) {
+TEST(testLuaCppTemplater, codesection) {
     string source = "\n"
         "{%\n"
         "sum=0\n"
@@ -161,31 +161,31 @@ TEST(testLuaTemplater, codesection) {
         "%}\n"
         "{{sum}}\n"
         "";
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     string result = mytemplate.render(source);
     cout << "[" << result << "]" << endl;
     string expectedResult = "\n\n2\n";
     EXPECT_EQ(expectedResult, result);
 }
 
-TEST(testLuaTemplater, codingerror) {
+TEST(testLuaCppTemplater, codingerror) {
     string source = "\n"
         "{%\n"
         "sum=foo.blah\n"
         "%}\n"
         "";
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     EXPECT_THROW(mytemplate.render(source), std::runtime_error);
 }
 
-TEST(testLuaTemplater, include) {
+TEST(testLuaCppTemplater, include) {
     string source = "\n"
         "{{include_tensorinfocl}}\n"
         "\n"
         "";
     string source2 = "var color = '{{color}}';\n"
       "var {{foo}} = 0;\n";
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     mytemplate.set("include_tensorinfocl", source2);
     mytemplate.set("color", "blue");
     mytemplate.set("foo", "blah");
@@ -195,7 +195,7 @@ TEST(testLuaTemplater, include) {
     EXPECT_EQ(expectedResult, result);
 }
 
-TEST(testLuaTemplater, function) {
+TEST(testLuaCppTemplater, function) {
     string source = "\n"
         "{% function foo() %}\n"
         "this is text inside foo function\n"
@@ -207,7 +207,7 @@ TEST(testLuaTemplater, function) {
         "more text\n"
         "\n"
         "";
-    LuaTemplater mytemplate;
+    LuaCppTemplater mytemplate;
     string result = mytemplate.render(source);
     cout << "[" << result << "]" << endl;
     string expectedResult =

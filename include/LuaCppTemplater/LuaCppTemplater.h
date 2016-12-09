@@ -11,13 +11,13 @@
 
 struct lua_State;
 
-class LuaTemplater {
+class LuaCppTemplater {
 private:
   lua_State *L;
 
 public:
-  LuaTemplater();
-  ~LuaTemplater();
+  LuaCppTemplater();
+  ~LuaCppTemplater();
   void set(std::string const &name, std::string const &value);
   void set(std::string const &name, float value);
   void set(std::string const &name, int value);
