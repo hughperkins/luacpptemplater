@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "util/luacpptemplater_stringhelper.h"
+#include "luacpptemplater_stringhelper.h"
 
 inline ::testing::AssertionResult AssertFloatsNear(const char *expr_one, const char *expr_two,
     float one, float two) {
@@ -16,7 +16,7 @@ inline ::testing::AssertionResult AssertFloatsNear(const char *expr_one, const c
     std::string twostr = luacpptemplater::toString(two);
     return ::testing::AssertionFailure()
         << expr_one << " and " << expr_two << " differ: " << onestr << " vs " << twostr;
-} 
+}
 
 #define EXPECT_FLOAT_NEAR(one, two) EXPECT_PRED_FORMAT2(AssertFloatsNear, one, two)
 #define ASSERT_FLOAT_NEAR(one, two) ASSERT_PRED_FORMAT2(AssertFloatsNear, one, two)

@@ -1,0 +1,5 @@
+[requires]
+lua/5.3.3@dwerner/testing
+
+[generators]
+cmake

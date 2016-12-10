@@ -24,9 +24,9 @@
 --  a level of sandboxing. Note that any globals including
 --  libraries that the template needs to access must be
 --  provided by env if used.
- 
+
 local M = {}
- 
+
 -- Append text or code to the builder.
 local function appender(builder, text, code)
     if code then
@@ -39,13 +39,13 @@ local function appender(builder, text, code)
         builder[#builder+1] = "_ret[#_ret+1] = [[\n" .. text .. "]]"
     end
 end
- 
+
 --- Takes a string and determines what kind of block it
 -- is and takes the appropriate action.
 --
 -- The text should be something like:
 -- "{{ ... }}"
--- 
+--
 -- If the block is supported the begin and end tags will
 -- be stripped and the associated action will be taken.
 -- If the tag isn't supported the block will be output
@@ -53,10 +53,10 @@ end
 local function run_block(builder, text)
     local func
     local tag
- 
+
     -- print('run_block [' .. text .. ']' )
     tag = text:sub(1, 2)
- 
+
     if tag == "{{" then
         func = function(code)
             return ('_ret[#_ret+1] = %s'):format(code)
@@ -72,7 +72,7 @@ local function run_block(builder, text)
         appender(builder, text)
     end
 end
- 
+
 --- Compile a Lua template into a string.
 --
 -- @param      tmpl The template.
@@ -96,12 +96,12 @@ function M._compile(tmpl)
     if #tmpl == 0 then
         return ""
     end
- 
+
     while pos < #tmpl do
         -- Look for start of a Lua block.
         doublebracepos = tmpl:find("{{", pos)
         bracepercentpos = tmpl:find("{%%", pos)
-        if doublebracepos and not bracepercentpos or ( doublebracepos and bracepercentpos and doublebracepos < bracepercentpos ) then 
+        if doublebracepos and not bracepercentpos or ( doublebracepos and bracepercentpos and doublebracepos < bracepercentpos ) then
             b = doublebracepos
             -- Add all text up until this block.
             appender(builder, tmpl:sub(pos, b-1))
@@ -135,11 +135,11 @@ function M._compile(tmpl)
     if pos then
         appender(builder, tmpl:sub(pos, #tmpl))
     end
- 
+
     builder[#builder+1] = "return table.concat(_ret)"
     local tc = table.concat(builder, "\n")
     -- print('tc', tc)
-    local func, err = loadstring(tc)
+    local func, err = load(tc)
     if not func then
         print('Error')
         print('Incoming template:\n', tmpl)
@@ -177,6 +177,6 @@ function M.compile(tmpl)
   end
   return compiled
 end
- 
+
 return M
 
